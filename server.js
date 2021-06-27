@@ -1,6 +1,7 @@
 'use strict';
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb+srv://admin:bd11112222@@rabbitcluster.jjait.mongodb.net/";
+const dbName = 'myFirstDatabase';
 
 const express = require('express');
 const { Server } = require('ws');
