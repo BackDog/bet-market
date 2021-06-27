@@ -35,6 +35,10 @@
             <li class="{{x.active}}"><a href="#!{{x.url}}" class="{{x.active}} my-title-menu" ng-click="vm.changeActiveMenu(x.url)" style="font-weight: 500; color: #c6ab50;">{{x.name}}</a></li>
           </ul>
 
+          <button type="button" ng-if="!liveID" class="btn btn-success btn-info" onclick="window.location.href='/sign-up'" style="float: right; font-size: 12px; margin-top: 8px;">
+            Sign up
+          </button>
+
           <button type="button" ng-if="!liveID" class="btn btn-success btn-round" data-toggle="modal" data-target="#loginModal" style="float: right; font-size: 12px; margin-top: 8px;">
             Login
           </button>
@@ -80,7 +84,6 @@
     <!-- MODAL LOGIN -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
-
         <div class="modal-content">
 
           <div class="modal-header border-bottom-0" style="border-bottom: none !important; padding: 0 !important;">
@@ -133,7 +136,8 @@
             <div class="form-title text-center" style="display: flex; flex-direction: column;">
               <span style="padding: 0 8px; font-weight: 900; font-size: 12px;">
                 <img src="https://cdngarenanow-a.akamaihd.net/games/lol/tw/web/media/upload/icons/favicon.ico?version=20200212" width="15" style="margin-right: 5px;margin-bottom: 5px;">
-              {{bet.leagueName}}</span>
+              {{bet.leagueName}}
+              </span>
               <span style="padding: 0 8px; font-weight: 300; font-size: 14px;">{{bet.title}}</span>
               <span style="padding: 0 8px; font-weight: 900; font-size: 12px;">GAME WINNER</span>
             </div>
@@ -162,7 +166,8 @@
                   </div>
                 </div>
 
-                <span class="my-font-black" style="font-size: 12px" ng-if="vm.betInventoryByType('csgo').length != 0">CSGO Item</span>
+                <span class="my-font-black" style="font-size: 12px" ng-if="vm.betInventoryByType('csgo').length != 0">CSGO Item
+                </span>
                 <div class="inventory" style="padding-top:8px">
                   <div ng-repeat="x in vm.betInventoryByType('csgo')" class="item" ng-style="setBackground(x)" ng-click="x.betted = !x.betted; vm.checkBet()" style="background-repeat: no-repeat;background-size: cover;">
                     <!-- {{ x.name }} -->
@@ -171,35 +176,67 @@
                 </div>
 
               </div>
+
               <div class="panel-heading">
                 <button type="button" class="btn btn-default" ng-click="vm.betGame(1, bet)">{{bet.team1}} {{(bet.betPer1*bet.valueBet).toFixed(2) }}</button>
                 <button type="button" class="btn btn-default" ng-click="vm.betGame(2, bet)">{{bet.team2}} {{(bet.betPer2*bet.valueBet).toFixed(2) }}</button>
               </div>
 
-            <div style="text-align: left;padding: 20px;">
-              <div class="rows" style="padding-bottom: 8px;">
-                <button type="button" class="btn" 
-                ng-class="{'btn-info': statusBag=='dota2'}" ng-click="statusBag = 'dota2'">DOTA 2</button>
-                <button type="button" class="btn"
-                ng-class="{'btn-info': statusBag=='csgo'}" ng-click="statusBag = 'csgo'">CSGO</button>
-              </div>
+              <div style="text-align: left;padding: 20px;">
 
-              Quantity: {{vm.totalItem()}} Value: {{vm.totalValue()}}
-
-              <div class="inventory" style="padding-top:8px">
-                <div ng-repeat="x in vm.inventoryByType()" class="item" ng-style="setBackground(x)" ng-click="x.betted = !x.betted; vm.checkBet()" style="background-repeat: no-repeat;background-size: cover;">
-                  <!-- {{ x.name }} -->
-                  <span style="color: yellow; float: right;">{{ x.value.toFixed(2) }}</span>
+                <div class="rows" style="padding-bottom: 8px;">
+                  <button type="button" class="btn" 
+                  ng-class="{'btn-info': statusBag=='dota2'}" ng-click="statusBag = 'dota2'">DOTA 2</button>
+                  <button type="button" class="btn"
+                  ng-class="{'btn-info': statusBag=='csgo'}" ng-click="statusBag = 'csgo'">CSGO</button>
                 </div>
+
+                Quantity: {{vm.totalItem()}} Value: {{vm.totalValue()}}
+
+                <div class="inventory" style="padding-top:8px">
+                  <div ng-repeat="x in vm.inventoryByType()" class="item" ng-style="setBackground(x)" ng-click="x.betted = !x.betted; vm.checkBet()" style="background-repeat: no-repeat;background-size: cover;">
+                    <!-- {{ x.name }} -->
+                    <span style="color: yellow; float: right;">{{ x.value.toFixed(2) }}</span>
+                  </div>
+                </div>
+
               </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
+    
+    <!-- MODAL CONFIRM STEAM ID-->
+    <div class="modal fade" id="confirmIDModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header border-bottom-0" style="border-bottom: none !important; padding: 0 !important;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+
+            <div class="form-title text-center">
+              <h4 style="color: black">CONFIRM YOUR ACCOUNT OF 5ETOP</h4>
+            </div>
+
+          </div>
+ 
+          <div class="modal-footer d-flex justify-content-center">
+            YES OR NO
+          </div>
+
+        </div>
+      </div>
+    </div>
 
     <!-- MODAL CONFIRM -->
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
