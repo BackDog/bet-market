@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -18,26 +19,225 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 
     <script>
-      let HOST = location.origin.replace(/^http/, 'ws')
-      let ws = new WebSocket(HOST);
-      let el;
+      let LOCATION = location.origin;
+      var HOST_API = '';
+      var HOST_WS = location.origin.replace(/^http/, 'ws');
+      if (LOCATION.includes("localhost")) {
+        HOST_API = LOCATION + ":8081";
+        HOST_WS = "wss://bet-market.herokuapp.com"
+      }
+      let ws = new WebSocket(HOST_WS);
 
       ws.onmessage = (event) => {
-        el = document.getElementById('server-time');
-        el.innerHTML = 'Server time: ' + event.data;
+        console.log(event.data);
       };
     </script>
   </head>
   <body ng-app="myApp" ng-controller="controller as vm">
-    ngon
-    <p id="server-time"></p>
-    <script>
-      var app = angular.module('myApp', ["ngRoute"]);
-      app.controller('controller', function($scope, $http) {
-        $http.get("/menu").then(function (response) {
-          console.log(data);
-        });
-      });
-    </script>
+
+      <!-- MENU -->
+      <nav class="navbar navbar-default fixed-menu">
+        <div class="container-fluid" style="background-color: #2d2b2c;">
+
+          <div class="navbar-header" style="margin-top: 6px;">
+            <img src="src/fav.PNG" width="35" style="margin-right: 5px;margin-bottom: 5px;">
+            <a href="#" style="font-weight: 500; font-size: 16px;color: #c6ab50; margin: 20px;text-shadow: 0 0 3px #c6ab50, 0 0 3px #c6ab50" ng-click="vm.changeActiveMenu('')">{{websiteName}}</a>
+          </div>
+
+          <ul class="nav navbar-nav" ng-repeat="x in menu">
+            <li class="{{x.active}}"><a href="#!{{x.url}}" class="{{x.active}} my-title-menu" ng-click="vm.changeActiveMenu(x.url)" style="font-weight: 500; color: #c6ab50;">{{x.name}}</a></li>
+          </ul>
+
+          <button type="button" ng-if="!liveID" class="btn btn-success btn-round" data-toggle="modal" data-target="#loginModal" style="float: right; font-size: 12px; margin-top: 8px;">
+            Login
+          </button>
+
+          <button type="button" ng-if="liveID" class="btn btn-danger btn-round" ng-click="vm.logout()" style="float: right; font-size: 12px; margin-top: 8px;">
+            Logout
+          </button>
+
+          <span ng-if="liveID" style="float: right; font-size: 14px; margin: 12px; font-weight: bold; color: white">{{user.username}}</span>
+
+        </div>
+      </nav>
+      <div class="fixed-menu-2"></div>
+
+      <!-- CONTENT LEFT -->
+      <div class="content-left">
+
+        <div class="panel panel-default" style="width: 100%;">
+          <div class="panel-heading">
+            <span class="my-font-gold">JACKPOT 2000$</span>
+          </div>
+          <div class="panel-body">
+          </div>
+          <div class="panel-footer" ng-if="liveID">
+            Your ticket:
+          </div>
+        </div>
+      </div>
+
+    <!-- CONTENT -->
+    <div ng-view class="content"></div>
+    <script src="js/main.js"></script>
+
+    <!-- MODAL LOADING -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-sm " style="width: 100vh; max-width: 100%;">
+        <div class="modal-content" style="background-color: transparent !important; box-shadow: none; border: none;margin: 45%;">
+          <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL LOGIN -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+          <div class="modal-header border-bottom-0" style="border-bottom: none !important; padding: 0 !important;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+
+            <div class="form-title text-center">
+              <h4 style="color: black">Login</h4>
+            </div>
+
+            <div class="d-flex flex-column text-center">
+              <form>
+                <div class="form-group">
+                  <input type="email" class="form-control" id="emailLogin" placeholder="Your email address...">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" id="passwordLogin" placeholder="Your password...">
+                </div>
+                <button type="button" id="loginButton" class="btn btn-success btn-block btn-round" ng-click="vm.login()">Login</button>
+              </form>
+            </div>
+
+          </div>
+
+          <div class="modal-footer d-flex justify-content-center">
+            <div class="signup-section" style="color: black;">Not a member yet? <a href="/sign-up" class="text-info"> Sign Up</a>.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL BET -->
+    <div class="modal fade" id="betModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 600px !important;">
+        <div class="modal-content">
+
+          <div class="modal-header border-bottom-0" style="border-bottom: none !important; padding: 0 !important;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body ">
+
+            <div class="form-title text-center" style="display: flex; flex-direction: column;">
+              <span style="padding: 0 8px; font-weight: 900; font-size: 12px;">
+                <img src="https://cdngarenanow-a.akamaihd.net/games/lol/tw/web/media/upload/icons/favicon.ico?version=20200212" width="15" style="margin-right: 5px;margin-bottom: 5px;">
+              {{bet.leagueName}}</span>
+              <span style="padding: 0 8px; font-weight: 300; font-size: 14px;">{{bet.title}}</span>
+              <span style="padding: 0 8px; font-weight: 900; font-size: 12px;">GAME WINNER</span>
+            </div>
+
+            <div class="d-flex flex-column text-center panel panel-default" style="display: flex; flex-direction: column;">
+              <div class="panel-heading">
+                <button type="button" class="btn btn-default">{{bet.betPer1.toFixed(2)}}</button>
+                <span style="padding: 0 8px; font-weight: bold;">{{bet.team1}}</span>
+                 - 
+                <span style="padding: 0 8px; font-weight: bold;">{{bet.team2}}</span>
+                <button type="button" class="btn btn-default">{{bet.betPer2.toFixed(2)}}</button>
+              </div>
+
+              <div class="panel-heading" style="background-color: #1c9c1c; font-weight: bold;">
+                You selected: 123 Value: 100 Profit: 80
+              </div>
+
+              <div class="panel-body">
+
+                <span class="my-font-black">ITEM BET </span><br>
+                <span class="my-font-black" style="font-size: 12px" ng-if="vm.betInventoryByType('dota2').length != 0">DOTA2 Item</span>
+                <div class="inventory" style="padding-top:8px">
+                  <div ng-repeat="x in vm.betInventoryByType('dota2')" class="item" ng-style="setBackground(x)" ng-click="x.betted = !x.betted; vm.checkBet()" style="background-repeat: no-repeat;background-size: cover;">
+                    <!-- {{ x.name }} -->
+                    <span style="color: yellow; float: right;">{{ x.value.toFixed(2) }}</span>
+                  </div>
+                </div>
+
+                <span class="my-font-black" style="font-size: 12px" ng-if="vm.betInventoryByType('csgo').length != 0">CSGO Item</span>
+                <div class="inventory" style="padding-top:8px">
+                  <div ng-repeat="x in vm.betInventoryByType('csgo')" class="item" ng-style="setBackground(x)" ng-click="x.betted = !x.betted; vm.checkBet()" style="background-repeat: no-repeat;background-size: cover;">
+                    <!-- {{ x.name }} -->
+                    <span style="color: yellow; float: right;">{{ x.value.toFixed(2) }}</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="panel-heading">
+                <button type="button" class="btn btn-default" ng-click="vm.betGame(1, bet)">{{bet.team1}} {{(bet.betPer1*bet.valueBet).toFixed(2) }}</button>
+                <button type="button" class="btn btn-default" ng-click="vm.betGame(2, bet)">{{bet.team2}} {{(bet.betPer2*bet.valueBet).toFixed(2) }}</button>
+              </div>
+
+            <div style="text-align: left;padding: 20px;">
+              <div class="rows" style="padding-bottom: 8px;">
+                <button type="button" class="btn" 
+                ng-class="{'btn-info': statusBag=='dota2'}" ng-click="statusBag = 'dota2'">DOTA 2</button>
+                <button type="button" class="btn"
+                ng-class="{'btn-info': statusBag=='csgo'}" ng-click="statusBag = 'csgo'">CSGO</button>
+              </div>
+
+              Quantity: {{vm.totalItem()}} Value: {{vm.totalValue()}}
+
+              <div class="inventory" style="padding-top:8px">
+                <div ng-repeat="x in vm.inventoryByType()" class="item" ng-style="setBackground(x)" ng-click="x.betted = !x.betted; vm.checkBet()" style="background-repeat: no-repeat;background-size: cover;">
+                  <!-- {{ x.name }} -->
+                  <span style="color: yellow; float: right;">{{ x.value.toFixed(2) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL CONFIRM -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+          <div class="modal-header border-bottom-0" style="border-bottom: none !important; padding: 0 !important;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+
+            <div class="form-title text-center">
+              <h4 style="color: black">CONFIRM YOUR ACTION</h4>
+            </div>
+
+          </div>
+
+          <div class="modal-footer d-flex justify-content-center">
+            YES OR NO
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>

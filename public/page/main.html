@@ -1,0 +1,35 @@
+<div style="padding-top: 12px">
+  <ul class="nav nav-tabs">
+    <li class="active" ><a href="#" style="font-weight: bold">
+    All</a></li>
+    <li><a href="#" style="font-weight: bold"><img src="https://banner2.cleanpng.com/20180328/xxq/kisspng-dota-2-league-of-legends-the-international-video-g-axe-logo-5abb426b90a3a3.8637068815222216755925.jpg" width="15" style="margin-right: 5px;margin-bottom: 5px;">
+    DOTA 2</a></li>
+    <li><a href="#" style="font-weight: bold"><img src="https://cdngarenanow-a.akamaihd.net/games/lol/tw/web/media/upload/icons/favicon.ico?version=20200212" width="15" style="margin-right: 5px;margin-bottom: 5px;">
+    LOL</a></li>
+    <li><a href="#" style="font-weight: bold"><img src="https://i.pinimg.com/originals/3f/73/47/3f7347c1a4a72c1b39bc14138c377737.png" width="16" style="margin-right: 5px;margin-bottom: 4px;">
+    CSGO</a></li>
+    <li><a href="#" style="font-weight: bold">
+    SPORT</a></li>
+  </ul>
+  <br>
+  <div ng-repeat="x in lol">
+	  <div class="panel panel-default">
+	  	<div class="panel-heading" style="font-weight: bold">
+			<img src="https://cdngarenanow-a.akamaihd.net/games/lol/tw/web/media/upload/icons/favicon.ico?version=20200212" width="15" style="margin-right: 5px;margin-bottom: 5px;">
+	  	{{x.leagueName}}</div>
+	  	<div class="panel-body">
+	  		<div>
+		  		<span style="padding: 0 8px; font-weight: 900; font-size: 12px;">GAME WINNER:</span>
+		  		<span style="padding: 0 8px; font-weight: bold;">{{x.team1}}</span><button type="button" class="btn btn-default">{{x.betPer1.toFixed(2)}}</button>
+		  		 - 
+		  		<span style="padding: 0 8px; font-weight: bold;">{{x.team2}}</span><button type="button" class="btn btn-default">{{x.betPer2.toFixed(2)}}</button>
+
+		  		<button type="button" class="btn btn-info btn-round" style="float: right; font-size: 12px; margin: 4px;" ng-click="vm.bet(x.rel)">BET</button>
+		  		<button type="button" class="btn btn-info btn-round" style="float: right; font-size: 12px; margin: 4px" ng-click="vm.change(x.rel)">Change</button>
+		  		<button type="button" class="btn btn-danger btn-round" style="float: right; font-size: 12px; margin: 4px" ng-click="vm.cancel(x.rel)">Cancel</button>
+	  		</div>
+	  	</div>
+	  </div>
+  </div>
+  <p><strong>Note:</strong> This example shows how to create a basic navigation tab. It is not toggleable/dynamic yet (you can't click on the links to display different content)- see the last example in the Bootstrap Tabs and Pills Tutorial to find out how this can be done.</p>
+</div>
