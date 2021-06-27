@@ -16,7 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
-    
+
     <script>
       let HOST = location.origin.replace(/^http/, 'ws')
       let ws = new WebSocket(HOST);
@@ -31,5 +31,13 @@
   <body>
     ngon
     <p id="server-time"></p>
+    <script>
+      var app = angular.module('myApp', ["ngRoute"]);
+      app.controller('controller', function($scope, $http) {
+        $http.get("/menu").then(function (response) {
+          console.log(data);
+        });
+      });
+    </script>
   </body>
 </html>
