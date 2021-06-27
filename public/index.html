@@ -18,20 +18,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 
-    <script>
-      let LOCATION = location.origin;
-      var HOST_API = '';
-      var HOST_WS = location.origin.replace(/^http/, 'ws');
-      if (LOCATION.includes("localhost")) {
-        HOST_API = LOCATION + ":8081";
-        HOST_WS = "wss://bet-market.herokuapp.com"
-      }
-      let ws = new WebSocket(HOST_WS);
-
-      ws.onmessage = (event) => {
-        console.log(event.data);
-      };
-    </script>
   </head>
   <body ng-app="myApp" ng-controller="controller as vm">
 
