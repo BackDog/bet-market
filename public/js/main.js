@@ -1,26 +1,26 @@
 var app = angular.module('myApp', ["ngRoute"]);
 
 app.config(function($routeProvider) {
-    $routeProvider
-    .when("/", {
-        templateUrl : "page/main.html",
-        controller : "mainCtrl"
-    })
-    .when("/jackpot", {
-        templateUrl : "page/jackpot.html"
-    })
-    .when("/my-bag", {
-        templateUrl : "page/my-bag.html"
-    })
-    .when("/bonus", {
-        templateUrl : "page/bonus.html"
-    })
-    .when("/my-profile", {
-        templateUrl : "page/my-profile.html"
-    })
-    .otherwise({
-      template : "<p>Sorry when don't support yet</p>"
-  });;
+   $routeProvider
+      .when("/", {
+         templateUrl : "page/main.html",
+         controller : "mainCtrl"
+      })
+      .when("/jackpot", {
+         templateUrl : "page/jackpot.html"
+      })
+      .when("/my-bag", {
+         templateUrl : "page/my-bag.html"
+      })
+      .when("/bonus", {
+         templateUrl : "page/bonus.html"
+      })
+      .when("/my-profile", {
+         templateUrl : "page/my-profile.html"
+      })
+      .otherwise({
+         template : "<p>Sorry when don't support yet</p>"
+      });;
 });
 
 app.controller('controller', function($scope, $http) {
