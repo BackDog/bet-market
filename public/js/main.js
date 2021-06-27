@@ -30,7 +30,6 @@ app.controller('controller', function($scope, $http) {
       username: "test",
       data: "login fail"
    };
-   console.log($scope.menu);
    var vm = this;
    vm.changeActiveMenu = function(url) {
       for (let i of $scope.menu) {
@@ -105,7 +104,7 @@ app.controller('controller', function($scope, $http) {
    $http.get("/menu").then(function (response) {
       $scope.menu = response.data;
    });
-   $http.get("/leaguePrize").then(function (response) {
+   $http.get("/leaguePrize/lol").then(function (response) {
       $scope.names = response.data;
    });
 
