@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 3000;
 // const server = express()
 //   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
 //   .listen(PORT, () => console.log(`Listening on ${PORT}`));
+console.clear();
 
 var app = express();
 app.use(express.static(__dirname + '/public'));
@@ -47,6 +48,12 @@ function sendAll (message) {
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db(dbName);
+
+    app.get('/customers', function (req, res) {
+        findObj(dbo, "customers", {}, function (data) {
+            res.end( JSON.stringify(data));
+        });
+    });
 
     app.get('/menu', function (req, res) {
         var data = [
