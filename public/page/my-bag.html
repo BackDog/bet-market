@@ -6,20 +6,26 @@
 		</div>
 
 		<div class="panel-body">
-			<div class="rows" style="padding-bottom: 8px;">
-				<button type="button" class="btn btn-info">DOTA 2</button>
-				<button type="button" class="btn btn-default">CSGO</button>
+			<div ng-if="!liveID">
+				Please login to use this function.
 			</div>
+			<div ng-if="!liveID">
 
-			Quantity: {{inventory.length}} Value: {{vm.totalValue()}}
-
-			<div class="inventory" style="padding-top:8px">
-				<div ng-repeat="x in inventory" class="item" ng-style="setBackground(x)" style="background-repeat: no-repeat;background-size: cover;">
-					<!-- {{ x.name }} -->
-					<span style="color: yellow; float: right;">{{ x.value.toFixed(2) }}</span>
+				<div class="rows" style="padding-bottom: 8px;">
+					<button type="button" class="btn btn-info">DOTA 2</button>
+					<button type="button" class="btn btn-default">CSGO</button>
 				</div>
+
+				Quantity: {{inventory.length}} Value: {{vm.totalValue()}}
+
+				<div class="inventory" style="padding-top:8px">
+					<div ng-repeat="x in inventory" class="item" ng-style="setBackground(x)" style="background-repeat: no-repeat;background-size: cover;">
+						<!-- {{ x.name }} -->
+						<span style="color: yellow; float: right;">{{ x.value.toFixed(2) }}</span>
+					</div>
+				</div>
+
 			</div>
 		</div>
-
 	</div>
 </div>
