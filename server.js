@@ -14,9 +14,9 @@ var parse = require('node-html-parser');
 
 const PORT = process.env.PORT || 3000;
 
-const production  = 'https://bet-market.herokuapp.com/';
-const development = 'http://localhost:3000/';
-const apiurl = (process.env.NODE_ENV ? production : development);
+const production  = 'https://bet-market.herokuapp.com';
+const development = 'http://localhost:3000';
+const apiUrl = (process.env.NODE_ENV ? production : development);
 console.log(process.env.NODE_ENV);
 
 var app = express();
