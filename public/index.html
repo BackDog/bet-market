@@ -226,18 +226,15 @@
             </div>
 
               <form>
+                <strong>SteamID: </strong>
                 <div class="form-group">
-                  <input type="password" id="steamId" style="width: 100%; border-radius: 4px;" placeholder="Your Steam ID or Partner ID">
+                  <input type="text" id="steamId" style="width: 100%; border-radius: 4px;" ng-blur="vm.getUser()" placeholder="Your Steam ID or Partner ID">
                 </div>
+                <p style="font-weight: bold">{{messageSteamConfirm}}</p>
                 <button type="button" class="btn btn-success btn-block btn-round" ng-click="vm.confirmSteamId()">Confirm</button>
               </form>
 
           </div>
- 
-          <div class="modal-footer d-flex justify-content-center">
-            YES OR NO
-          </div>
-
         </div>
       </div>
     </div>

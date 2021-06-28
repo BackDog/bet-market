@@ -41,12 +41,23 @@ wss.on('connection', function connection(ws) {
     });
 });
 
+async function chttpsCallback(method, url, data, callback) {
+    const result = await chttps(method, url, data);
+    callback(JSON.parse(result));
+}
+
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db(dbName);
 
-    app.get('/customers', function (req, res) {
-        findObj(dbo, "customers", {}, function (data) {
+    app.get('/send-mail/:email', function (req, res) {
+        client.send("SENDMAIL|" + req.params.email);
+        res.end('<script>location.replace("' + apiUrl + '/sign-up/check-mail.html")</script>');
+    });
+
+    app.get('/getuser/:id', function (req, res) {
+        var id = req.params.id;
+        chttpsCallback('GET', 'https://www.5etop.com/api/user/getuser.do?steamId='+id+'&lang=en', {}, function(data) {
             res.end( JSON.stringify(data));
         });
     });
@@ -79,11 +90,10 @@ MongoClient.connect(url, function(err, db) {
             if (data.length === 0) {
                 insertObj(dbo, "signup", [obj], function(data2) {
                     if (data2.data === 1) {
-                        sendActiveMail(obj.email, obj.hash, function(data3) {
-                            res.send("Please user another email. We can't send to your email.");
-                        });
+                        client.send("SENDMAIL|" + obj.email + "|" + hash);
+                        res.send('<script>location.replace("' + apiUrl + '/sign-up/check-mail.html")</script>');
                     }else{
-                        res.send("Check your email: " + email + " to activate your account.");
+                        res.send('<script>location.replace("' + apiUrl + '/sign-up/check-mail.html")</script>');
                     }
                 });
             }else{
@@ -101,7 +111,7 @@ MongoClient.connect(url, function(err, db) {
                 delete obj['_id'];
                 insertObj(dbo, "users", [obj], log);
                 deleteObj(dbo, "signup", {hash: pass}, log);
-                res.send("Your account is activated.");
+                res.end('<script>location.replace("' + apiUrl + '/sign-up/actived.html")</script>');
             }
         });
     });
@@ -211,30 +221,6 @@ function generateCodeActive() {
     return result;
 }
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'canhnt1204@gmail.com',
-    pass: '1204thanhcanh1994'
-  }
-});
-
-function sendActiveMail(email, code, callback) {
-    var mailOptions = {
-      from: 'canhnt1204@gmail.com',
-      to: email,
-      subject: 'Your Bet Market Verification Code',
-      text: 'Your activation link : ' + apiUrl + '/verification-account/' + code
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        log(error);
-      } else {
-        log('ĐÃ GỬI 1 MAIL XÁC NHẬN: ' + info.response);
-      }
-    });
-}
 
 async function chttps(method, url, data) {
   const dataString = JSON.stringify(data)
@@ -336,3 +322,36 @@ async function getData(name, callback){
    }
    // console.log(array_prize_pool);
 }
+
+var W3CWebSocket = require('websocket').w3cwebsocket;
+var client;
+var clientWsConnected = false;
+
+function connectWSServer() {
+    client = new W3CWebSocket('ws://27.71.228.17//', 'echo-protocol');
+
+    client.onerror = function() {
+        console.log('Connection Error');
+    };
+
+    client.onopen = function() {
+        console.log('WebSocket Client Connected');
+        clientWsConnected = true;
+    };
+
+    client.onclose = function() {
+        console.log('echo-protocol Client Closed');
+        clientWsConnected = false;
+        setTimeout(function() {
+            connectWSServer();
+        }, 1000);
+    };
+
+    client.onmessage = function(e) {
+        if (typeof e.data === 'string') {
+            console.log("Received: '" + e.data + "'");
+        }
+    };
+}
+
+connectWSServer();
