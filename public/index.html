@@ -207,7 +207,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- MODAL CONFIRM STEAM ID-->
     <div class="modal fade" id="confirmIDModal" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -224,6 +224,13 @@
             <div class="form-title text-center">
               <h4 style="color: black">CONFIRM YOUR ACCOUNT OF 5ETOP</h4>
             </div>
+
+              <form>
+                <div class="form-group">
+                  <input type="password" id="steamId" style="width: 100%; border-radius: 4px;" placeholder="Your Steam ID or Partner ID">
+                </div>
+                <button type="button" class="btn btn-success btn-block btn-round" ng-click="vm.confirmSteamId()">Confirm</button>
+              </form>
 
           </div>
  
@@ -252,11 +259,14 @@
             <div class="form-title text-center">
               <h4 style="color: black">CONFIRM YOUR ACTION</h4>
             </div>
-
+            <p>
+              {{modalConfirm.message}}
+            </p>
           </div>
 
           <div class="modal-footer d-flex justify-content-center">
-            YES OR NO
+            <button type="button" class="btn btn-success" ng-click="modalConfirm.answer = true">YES</button>
+            <button type="button" class="btn btn-danger" ng-click="modalConfirm.answer = false">NO</button>
           </div>
 
         </div>

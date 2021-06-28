@@ -108,6 +108,10 @@ app.controller('controller', function($scope, $http) {
       $scope.names = response.data;
    });
 
+   $http.get("https://5evalue.com/api/v1/getuser/1107668023").then(function (response) {
+      console.log(response);
+   });
+
    $scope.bet.valueBet = 0;
    vm.totalValueBet = function() {
       var totalValue = 0.00;
@@ -143,6 +147,9 @@ app.controller('controller', function($scope, $http) {
 
    $scope.setBackground = function (item) {
       return item.style;
+   }
+   $scope.confirmStreamId = function (){
+      $('#loadingModal').modal('show');
    }
    $scope.urlItem = "https://steamcommunity-a.akamaihd.net/economy/image/W_I_5GLm4wPcv9jJQ7z7tz_l_0sEIYUhRfbF4arNQkgGQGKd3kMuVpMgCwRZrhuYeVbf2uNDa_HZCjEuH5nvSUryOaKDx1uiU-9Qf9V1NmFX2dro004bBiXRVOUUCNUitZmS1g26WADFfDduw4QBgKXM1M-HCPPSrAynLlT3xxqopQ";
    $scope.value = 10;

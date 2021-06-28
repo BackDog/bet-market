@@ -107,6 +107,12 @@ body {
   text-shadow: 0 0 2px #c6ab50, 0 0 2px #c6ab50;
   color: #c6ab50 !important;
 }
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
 
             .inventory {
               display: flex;
