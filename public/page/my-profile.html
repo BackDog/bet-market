@@ -7,7 +7,7 @@
 			<div ng-if="!liveID" >
 				Please login to use this function.
 			</div>
-			<div ng-if="!liveID">
+			<div ng-if="liveID">
 				<strong>Username: </strong>{{user.username}} <br>
 				<strong>Email: </strong>{{ user.email }} <br>
 				<strong>PartnerID: </strong>{{ user.time }} <button type="button" class="btn btn-success" ng-if="!user.partnerId" style="font-size: 11px;" data-toggle="modal" data-target="#confirmIDModal">ACTIVE</button><br>
