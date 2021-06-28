@@ -82,8 +82,9 @@ MongoClient.connect(url, function(err, db) {
                         sendActiveMail(obj.email, obj.hash, function(data3) {
                             res.send("Please user another email. We can't send to your email.");
                         });
+                    }else{
+                        res.send("Check your email: " + email + " to activate your account.");
                     }
-                    res.send("Check your email: " + email + " to activate your account.");
                 });
             }else{
                 res.end("Email has been used.");
@@ -228,7 +229,7 @@ function sendActiveMail(email, code, callback) {
 
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
-        callback(error);
+        log(error);
       } else {
         log('ĐÃ GỬI 1 MAIL XÁC NHẬN: ' + info.response);
       }
