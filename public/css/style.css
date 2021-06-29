@@ -8,7 +8,7 @@ body {
   top: 0;
   position: fixed !important;
   width: 100%;
-  z-index: 9999 !important;
+  z-index: 1000 !important;
 }
 .content-left {
   position: fixed;

@@ -27,37 +27,35 @@
         <div class="container-fluid" style="background-color: #2d2b2c;">
 
           <div class="navbar-header" style="margin-top: 3px;">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
 
             <img src="src/fav.PNG" width="35" style="margin: 5px;">
             <a href="#" style="font-weight: 500; font-size: 16px;color: #c6ab50; margin: 20px;text-shadow: 0 0 3px #c6ab50, 0 0 3px #c6ab50" ng-click="vm.changeActiveMenu('')">{{websiteName}}</a>
           </div>
 
-<div class="collapse navbar-collapse" id="myNavbar">
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav" ng-repeat="x in menu">
+              <li class="{{x.active}}"><a href="#!{{x.url}}" class="{{x.active}} my-title-menu" ng-click="vm.changeActiveMenu(x.url)" style="font-weight: 500; color: #c6ab50;">{{x.name}}</a></li>
+            </ul>
 
-          <ul class="nav navbar-nav" ng-repeat="x in menu">
-            <li class="{{x.active}}"><a href="#!{{x.url}}" class="{{x.active}} my-title-menu" ng-click="vm.changeActiveMenu(x.url)" style="font-weight: 500; color: #c6ab50;">{{x.name}}</a></li>
-          </ul>
+            <button type="button" ng-if="!liveID" class="btn btn-success btn-info" onclick="window.location.href='/sign-up'" style="float: right; font-size: 12px; margin-top: 8px;">
+              Sign up
+            </button>
 
-          <button type="button" ng-if="!liveID" class="btn btn-success btn-info" onclick="window.location.href='/sign-up'" style="float: right; font-size: 12px; margin-top: 8px;">
-            Sign up
-          </button>
+            <button type="button" ng-if="!liveID" class="btn btn-success btn-round" data-toggle="modal" data-target="#loginModal" style="float: right; font-size: 12px; margin-top: 8px;">
+              Login
+            </button>
 
-          <button type="button" ng-if="!liveID" class="btn btn-success btn-round" data-toggle="modal" data-target="#loginModal" style="float: right; font-size: 12px; margin-top: 8px;">
-            Login
-          </button>
+            <button type="button" ng-if="liveID" class="btn btn-danger btn-round" ng-click="vm.logout()" style="float: right; font-size: 12px; margin-top: 8px;">
+              Logout
+            </button>
 
-          <button type="button" ng-if="liveID" class="btn btn-danger btn-round" ng-click="vm.logout()" style="float: right; font-size: 12px; margin-top: 8px;">
-            Logout
-          </button>
-
-          <span id="usernickname" ng-if="liveID" style="float: right; font-size: 14px; margin: 12px; font-weight: bold; color: white">{{user.username}}</span>
-    </div>
-
+            <span id="usernickname" ng-if="liveID" style="float: right; font-size: 14px; margin: 12px; font-weight: bold; color: white">{{user.username}}</span>
+          </div>
         </div>
       </nav>
 
