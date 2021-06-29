@@ -61,6 +61,7 @@ app.controller('controller', function($scope, $http) {
             document.cookie = "liveID=" + $scope.user.hash;
             $scope.liveID = readCookie('liveID');
             $scope.$apply();
+            location.reload();
          }
          if ($scope.user.data === "login fail") {
             alert("Login fail");
