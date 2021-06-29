@@ -23,13 +23,21 @@
   <body ng-app="myApp" ng-controller="controller as vm">
 
       <!-- MENU -->
-      <nav class="navbar navbar-default fixed-menu">
+      <nav class="navbar navbar-inverse fixed-menu">
         <div class="container-fluid" style="background-color: #2d2b2c;">
 
-          <div class="navbar-header" style="margin-top: 6px;">
-            <img src="src/fav.PNG" width="35" style="margin-right: 5px;margin-bottom: 5px;">
+          <div class="navbar-header" style="margin-top: 3px;">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+
+            <img src="src/fav.PNG" width="35" style="margin: 5px;">
             <a href="#" style="font-weight: 500; font-size: 16px;color: #c6ab50; margin: 20px;text-shadow: 0 0 3px #c6ab50, 0 0 3px #c6ab50" ng-click="vm.changeActiveMenu('')">{{websiteName}}</a>
           </div>
+
+<div class="collapse navbar-collapse" id="myNavbar">
 
           <ul class="nav navbar-nav" ng-repeat="x in menu">
             <li class="{{x.active}}"><a href="#!{{x.url}}" class="{{x.active}} my-title-menu" ng-click="vm.changeActiveMenu(x.url)" style="font-weight: 500; color: #c6ab50;">{{x.name}}</a></li>
@@ -48,9 +56,11 @@
           </button>
 
           <span id="usernickname" ng-if="liveID" style="float: right; font-size: 14px; margin: 12px; font-weight: bold; color: white">{{user.username}}</span>
+    </div>
 
         </div>
       </nav>
+
       <div class="fixed-menu-2"></div>
 
       <!-- CONTENT LEFT -->
