@@ -47,7 +47,7 @@
             Logout
           </button>
 
-          <span ng-if="liveID" style="float: right; font-size: 14px; margin: 12px; font-weight: bold; color: white">{{user.username}}</span>
+          <span id="usernickname" ng-if="liveID" style="float: right; font-size: 14px; margin: 12px; font-weight: bold; color: white">{{user.username}}</span>
 
         </div>
       </nav>
@@ -56,15 +56,83 @@
       <!-- CONTENT LEFT -->
       <div class="content-left">
 
-        <div class="panel panel-default" style="width: 100%;">
+        <div class="panel panel-default" style="width: 100%; height: 250px">
           <div class="panel-heading">
             <span class="my-font-gold">JACKPOT 2000$</span>
           </div>
-          <div class="panel-body">
+          <div class="panel-body" style="height: 167px">
+          </div>
+          <div class="panel-footer">
+            Your ticket: {{user.ticket}}
+            <button type="button" ng-if="!liveID" class="btn btn-success btn-round" data-toggle="modal" data-target="#loginModal" style="float: right; font-size: 12px; margin-top: -6px;">
+            Login
+          </button>
+          </div>
+        </div>
+
+        <div class="panel panel-default" style="width: 100%; height: calc(100% - 280px);">
+          <div class="panel-heading">
+            <span class="my-font-gold">Online Chat</span>
+          </div>
+          <div class="panel-body" style="height: calc(100% - 98px) !important; overflow-y: visible; overflow-x: hidden; width: 100%;font-size: 12px;" id="chat-box">
           </div>
           <div class="panel-footer" ng-if="liveID">
-            Your ticket:
+            <input type="text" id="chat-input" class="form-control" placeholder="Enter your message...">
           </div>
+          <script>
+            $(document).ready(function(){
+              $('#chat-input').on('keypress', function (e) {
+                  if(e.keyCode == 13) {
+                    websocket.send($('#usernickname').text() + '| ' + $('#chat-input').val());
+                    $('#chat-input').val('');
+                  }
+              });
+            });
+
+            var wsUri = "wss://e-server-rabbit.herokuapp.com/";
+
+            function init(){
+              output = document.getElementById("chat-box");
+              testWebSocket();
+            }
+            var arrayChat = [];
+            function testWebSocket(){
+              websocket = new WebSocket(wsUri);
+              websocket.onopen = function(evt) {
+              };
+              websocket.onclose = function(evt) {
+                setTimeout(testWebSocket(), 1000);
+              };
+              websocket.onmessage = function(evt) {
+                var str = evt.data.split("|");
+                username = '<strong>'+ str[0] + ': </strong>';
+                message = evt.data.split("|")[1];
+                writeToScreen(username + message);
+
+              };
+              websocket.onerror = function(evt) {
+                setTimeout(testWebSocket(), 5000);
+              };
+            }
+
+            function writeToScreen(message){
+              arrayChat.push(message);
+              console.log(arrayChat.length);
+              if (arrayChat.length > 30) {
+                arrayChat.shift();
+              }
+              output.innerHTML = '';
+              for (let i of arrayChat) {
+                var pre = document.createElement("p");
+                pre.style.wordWrap = "break-word";
+                pre.innerHTML = i;
+                output.appendChild(pre);
+              }
+              output.scrollTop = output.scrollHeight;
+            };
+
+            window.addEventListener("load", init, false);
+          </script>
         </div>
       </div>
 

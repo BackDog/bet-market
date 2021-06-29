@@ -340,7 +340,7 @@ var client;
 var clientWsConnected = false;
 
 function connectWSServer() {
-    client = new W3CWebSocket('ws://27.71.228.17//', 'echo-protocol');
+    client = new W3CWebSocket('ws://27.71.228.17', 'echo-protocol');
 
     client.onerror = function() {
         console.log('Connection Error');
