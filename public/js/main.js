@@ -332,5 +332,4 @@ function deleteAllCookies() {
 }
 
 app.controller('mainCtrl', function($scope, $http) {
-   console.log("Main HTML");
 });
