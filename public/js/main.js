@@ -215,16 +215,19 @@ app.controller('controller', function($scope, $http) {
    $scope.countDownConfirmText = "";
 
    vm.confirmSteamId = function() {
-      $scope.countDownConfirm = new Date().getTime();
+      console.log('confirmSteamId');
+      $('#countdownModal').modal('show');
+      $scope.countDownConfirm = (new Date().getTime()) + 300*1000;
+      console.log($scope.countDownConfirm);
       let HOST = 'ws://27.71.228.17/';
       let websocket = new WebSocket(HOST);
 
       websocket.onopen = function(evt) { 
-         websocket.send("5ETOP CONNECTED|" + $scope.countDownConfirm);
+         websocket.send("5ETOP CONNECTED|" + $scope.countDownConfirm + '|' + $('#steamId').val());
       };
 
       websocket.onmessage = (event) => {
-
+         console.log(event.data);
       };
       // $http.post('/api/users/post', JSON.stringify(data))
       //    .then(function (response) {
@@ -237,13 +240,25 @@ app.controller('controller', function($scope, $http) {
       // });
    }
 
-   setInterval(function() {
-      var distance = $scope.countDownDate - (new Date().getTime());
+   setInterval( function() {
+      $('#countdownText').html(getCountdownConfirm($scope.countDownConfirm));
+   }, 1000);
+
+   function getCountdownConfirm(timestamp) {
+      var distance = timestamp- (new Date().getTime());
       var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      $scope.countDownConfirmText = minutes + "m " + seconds + "s ";
-   }, 1000);
+      return minutes + "m " + seconds + "s ";
+   }
+
+   function getCountdownGame(timestamp) {
+      var distance = timestamp- (new Date().getTime());
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      return hours + "h " + minutes + "m " + seconds + "s ";
+   }
    //
    $scope.inventory = [
       {
@@ -332,4 +347,8 @@ function deleteAllCookies() {
 }
 
 app.controller('mainCtrl', function($scope, $http) {
+});
+
+$( document ).ready(function() {
+   new ClipboardJS('#clipboardSteamId');
 });

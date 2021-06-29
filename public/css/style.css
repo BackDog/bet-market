@@ -10,9 +10,10 @@ body {
   width: 100%;
   z-index: 1000 !important;
 }
+
 .content-left {
   position: fixed;
-  width: 185px;
+  width: 200px;
   bottom: 0;
   left: 5px;
   top: 82px;
@@ -21,10 +22,25 @@ body {
   position: fixed;
   bottom: 0;
   right: 0;
-  left: 200px;
+  left: 215px;
   top: 70px;
   overflow-y: scroll;
 }
+
+@media only screen and (max-width: 767px) {
+  .content {
+    position: fixed;
+    bottom: 0;
+    right: 12px;
+    left: 12px;
+    top: 70px;
+    overflow-y: scroll;
+  }
+  .content-left {
+    visibility: hidden;
+  }
+}
+
 .custom-border {
   background-color: #f8f8f8;
   border-color: #e7e7e7;
