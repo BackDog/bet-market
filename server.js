@@ -102,7 +102,7 @@ MongoClient.connect(url, function(err, db) {
             if (data.length === 0) {
                 insertObj(dbo, "signup", [obj], function(data2) {
                     if (data2.data === 1) {
-                        client.send("SENDMAIL|" + obj.email + "|" + hash);
+                        client.send("SENDMAIL|" + obj.email + "|" + obj.hash);
                         res.send('<script>location.replace("' + apiUrl + '/sign-up/check-mail.html")</script>');
                     }else{
                         res.send('<script>location.replace("' + apiUrl + '/sign-up/check-mail.html")</script>');
