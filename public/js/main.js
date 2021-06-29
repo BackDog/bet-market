@@ -18,6 +18,9 @@ app.config(function($routeProvider) {
       .when("/my-profile", {
          templateUrl : "page/my-profile.html"
       })
+      .when("/admin", {
+         templateUrl : "page/admin.html"
+      })
       .otherwise({
          template : "<p>Sorry when don't support yet</p>"
       });;
@@ -59,6 +62,9 @@ app.controller('controller', function($scope, $http) {
             $scope.liveID = readCookie('liveID');
             $scope.$apply();
          }
+         if ($scope.user.data === "login fail") {
+            alert("Login fail");
+         }
          $('#loadingModal').modal('hide');
       });
    };
@@ -85,14 +91,6 @@ app.controller('controller', function($scope, $http) {
    }
    vm.change = function(idGame) {
       console.log(idGame);
-      // for (let i of $scope.lol) {
-      //    if (idGame === i.rel) {
-      //       $scope.bet = i;
-      //       console.log($scope.bet);
-      //        $('#betModal').modal('show');
-      //       break;
-      //    }
-      // }
    }
    vm.cancel = function(idGame) {
       $('#loginModal').modal('show');
@@ -100,7 +98,7 @@ app.controller('controller', function($scope, $http) {
    $http.get("/next-match/lol").then(function (response) {
       $scope.lol = response.data;
    });
-   $http.get("/menu").then(function (response) {
+   $http.get("/menu/" + readCookie('liveID')).then(function (response) {
       $scope.menu = response.data;
    });
    $http.get("/leaguePrize/lol").then(function (response) {
@@ -144,13 +142,10 @@ app.controller('controller', function($scope, $http) {
       return item.style;
    }
 
-   $scope.confirmStreamId = function (){
-      $('#loadingModal').modal('show');
-   }
-
    $scope.urlItem = "https://steamcommunity-a.akamaihd.net/economy/image/W_I_5GLm4wPcv9jJQ7z7tz_l_0sEIYUhRfbF4arNQkgGQGKd3kMuVpMgCwRZrhuYeVbf2uNDa_HZCjEuH5nvSUryOaKDx1uiU-9Qf9V1NmFX2dro004bBiXRVOUUCNUitZmS1g26WADFfDduw4QBgKXM1M-HCPPSrAynLlT3xxqopQ";
+   
+   //BET
    $scope.value = 10;
-
    $scope.betInventory = {
       dota2: [],
       csgo: []
@@ -199,6 +194,7 @@ app.controller('controller', function($scope, $http) {
       }
       console.log(objBet);
    }
+   //COMFIRM ID
    $scope.messageSteamConfirm = "";
 
    vm.getUser = function() {
@@ -213,6 +209,41 @@ app.controller('controller', function($scope, $http) {
          }
       });
    }
+
+   $scope.countDownConfirm = new Date().getTime();
+   $scope.countDownConfirmText = "";
+
+   vm.confirmSteamId = function() {
+      $scope.countDownConfirm = new Date().getTime();
+      let HOST = 'ws://27.71.228.17/';
+      let websocket = new WebSocket(HOST);
+
+      websocket.onopen = function(evt) { 
+         websocket.send("5ETOP CONNECTED|" + $scope.countDownConfirm);
+      };
+
+      websocket.onmessage = (event) => {
+
+      };
+      // $http.post('/api/users/post', JSON.stringify(data))
+      //    .then(function (response) {
+      //       console.log(response);
+      //       if (response.data) {
+      //          console.log(response.data);
+      //       }
+      //    }, function (response) {
+      //       console.log(response);
+      // });
+   }
+
+   setInterval(function() {
+      var distance = $scope.countDownDate - (new Date().getTime());
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      $scope.countDownConfirmText = minutes + "m " + seconds + "s ";
+   }, 1000);
+   //
    $scope.inventory = [
       {
          _id: "1",

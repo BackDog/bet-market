@@ -114,21 +114,21 @@ hr {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-            .inventory {
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-              justify-content: flex-start;
-              align-items: baseline;
-              align-content: flex-start;
-            }
-            .item {
-              cursor: pointer;
-              font-size: 10px;
-              width: 40px;
-              height: 40px;
-              border: 2px solid #2d2b2c;
-              border-radius: 2px;
-              margin: 2px;
-              box-shadow: 0 4px 3px -3px #000000;
-            }
+.inventory {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: flex-start;
+}
+.item {
+  cursor: pointer;
+  font-size: 10px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #2d2b2c;
+  border-radius: 2px;
+  margin: 2px;
+  box-shadow: 0 4px 3px -3px #000000;
+}

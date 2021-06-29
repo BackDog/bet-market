@@ -62,7 +62,7 @@ MongoClient.connect(url, function(err, db) {
         });
     });
 
-    app.get('/menu', function (req, res) {
+    app.get('/menu/:hash', function (req, res) {
         var data = [
             {url: "", name: "Predictions", active: "active"},
             {url: "jackpot", name: "Jackpot", active: ""},
@@ -70,7 +70,19 @@ MongoClient.connect(url, function(err, db) {
             {url: "bonus", name: "Bonus", active: ""},
             {url: "my-profile", name: "My Profile", active: ""}
         ];
-        res.end( JSON.stringify(data));
+        var hash = req.params.hash;
+        log("Có người đăng nhập", hash);
+        findObj(dbo, "users", {hash: hash}, function(user) {
+            if (user.length === 1) {
+                var rs = user[0];
+                console.log(rs);
+                if (rs.email === 'canhnt1204@gmail.com') {
+                    data.push({url: "admin", name: "Admin", active: ""});
+                }
+            }
+            console.log(data);
+            res.end( JSON.stringify(data));
+        });
     });
 
     app.post('/sign-up', function (req, res, next) {
