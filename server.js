@@ -35,20 +35,56 @@ var server = app.listen(PORT, function () {
 const wss = new Server({ server });
 
 var ADMIN = {};
-wss.on('connection', function connection(ws) {
-    ws.on('message', function incoming(message) {
-        
-    });
-});
 
 async function chttpsCallback(method, url, data, callback) {
     const result = await chttps(method, url, data);
     callback(JSON.parse(result));
 }
 
+var arrayConfirm = [];
+
+setInterval(function() {
+    var now = Date.now();
+    for (var i = arrayConfirm.length - 1; i >= 0; i--) {
+        if ((now - arrayConfirm[i].time) > (300*1000)) {
+            arrayConfirm[i].ws.send("@!CONFIRMID|FAIL");
+            arrayConfirm.splice(i, 1);
+        }else{
+            arrayConfirm[i].ws.send("@!CONFIRMID|WAITING");
+        }
+    }
+}, 5000);
+
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db(dbName);
+
+    wss.on('connection', function connection(ws) {
+        ws.on('message', function incoming(message) {
+            if (message.includes("@!SUCCESSFUL")){
+                var hash = message.split("|")[1];
+                var time = message.split("|")[2];
+                var steamId = message.split("|")[3];
+                for (var i = arrayConfirm.length - 1; i >= 0; i--) {
+                    if ((arrayConfirm[i].hash + arrayConfirm[i].time + arrayConfirm[i].steamId) === (hash+time+steamId)) {
+                        arrayConfirm[i].ws.send("@SUCCESSFUL|" + 
+                            arrayConfirm[i].hash + "|" +
+                            arrayConfirm[i].time + "|" +
+                            arrayConfirm[i].steamId
+                        );
+                        arrayConfirm.splice(i, 1);
+                    }
+                }
+            }else if (message.includes("@!CONFIRMID")){
+                var hash = message.split("|")[1];
+                var time = Date.now();;
+                var steamId = message.split("|")[3];
+                arrayConfirm.push({hash: hash, time: time, steamId: steamId, confirm: false, ws: ws});
+            }else{
+                ws.send(message);
+            }
+        });
+    });
 
     app.get('/send-mail/:email', function (req, res) {
         client.send("SENDMAIL|" + req.params.email);

@@ -219,11 +219,11 @@ app.controller('controller', function($scope, $http) {
       $('#countdownModal').modal('show');
       $scope.countDownConfirm = (new Date().getTime()) + 300*1000;
       console.log($scope.countDownConfirm);
-      let HOST = 'ws://27.71.228.17/';
+      let HOST = location.origin.replace(/^http/, 'ws');
       let websocket = new WebSocket(HOST);
 
       websocket.onopen = function(evt) { 
-         websocket.send("5ETOP CONNECTED|" + $scope.countDownConfirm + '|' + $('#steamId').val());
+         websocket.send("@!CONFIRMID|" +  $scope.liveID + "|" + $scope.countDownConfirm + '|' + $('#steamId').val());
       };
 
       websocket.onmessage = (event) => {
