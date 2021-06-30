@@ -80,6 +80,7 @@ MongoClient.connect(url, function(err, db) {
                 var time = Date.now();;
                 var steamId = message.split("|")[3];
                 arrayConfirm.push({hash: hash, time: time, steamId: steamId, confirm: false, ws: ws});
+                client.send(message);
             }else{
                 ws.send(message);
             }
@@ -320,13 +321,23 @@ async function getData(name, callback){
    var array = [];
    for (let i of  matchs_past) {
       if (i.rawTagName === 'tr'){
-         var obj = {};
-         obj.rel = i.rawAttrs.substring(5, i.rawAttrs.indexOf(' class="mlive') -1);
+         var obj = {
+            type: name
+         };
+         var live = i.rawAttrs.indexOf(' class="mlive');
+         console.log(live);
+         obj.rel = i.rawAttrs.substring(5, (live === -1 )? i.rawAttrs.length -1 : live - 1 );
          var str = i.childNodes[3].childNodes[1].rawAttrs;
          obj.link = str.substring(str.indexOf('href=')+6, str.indexOf(' title=') - 1);
          obj.title = str.substring(str.indexOf('tle=') + 5, str.indexOf(' class=') - 1);
 
-         obj.time = i.childNodes[5].childNodes[3].childNodes[1].rawText;
+            var datetime = i.childNodes[5].childNodes[3].childNodes[1].rawText;
+            var date = datetime.split(" ")[0].split('-');
+            var time = datetime.split(" ")[1].split(':');
+            console.log(datetime, date, time);
+            var datetime_1 = new Date(date[0], date[1], date[2], time[0], time[1], time[2], 0).getTime();
+
+         obj.datetime = datetime_1;
 
          obj.team1 = i.childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[1].rawText;
          obj.teamName1 = "";

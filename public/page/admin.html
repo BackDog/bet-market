@@ -1,87 +1,174 @@
-<div class="row">
+<div class="row" ng-controller="adminCtrl as ad">
 	
-  <div class="col-sm-4">
-    <table class="table">
-      <thead>
+  <div class="col-sm-4" style="overflow-y: scroll; height: calc(100vh - 100px);">
+    <table class="table panel panel-default">
+      <thead class="panel-heading">
         <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Email</th>
+          <th>Type</th>
+          <th>Time</th>
+          <th>Name</th>
+          <th>Action</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>john@example.com</td>
-        </tr>
-        <tr>
-          <td>Mary</td>
-          <td>Moe</td>
-          <td>mary@example.com</td>
-        </tr>
-        <tr>
-          <td>July</td>
-          <td>Dooley</td>
-          <td>july@example.com</td>
+      <tbody class="panel-body">
+        <tr ng-repeat="x in lol">
+          <td>{{x.type}}</td>
+          <td>{{x.datetime}}</td>
+          <td>{{x.team1}}-vs-{{x.team2}}</td>
+          <td>
+            <button class="btn-info"
+              ng-click="ad.addGameAdmin(x)">
+              >
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
   <div class="col-sm-4">
-    <table class="table">
-      <thead>
+    <div class="table panel panel-default">
+      <div class="panel-heading">
+        Add Game
+      </div>
+      <div class="panel-body" id="add-game-admin">
+        Rel: {{addGameObj.x.rel}}<br>
+        League Name: {{addGameObj.x.leagueName}}<br>
+        Time: {{addGameObj.x.datetime}}<br>
+        Title: {{addGameObj.x.team1}}-vs-{{addGameObj.x.team2}}<br>
+        Type: {{addGameObj.x.typeGame}}
+        <form>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" checked ng-model="addGameObj.bo" value="1">BO 1
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" ng-model="addGameObj.bo" value="2">BO 2
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" ng-model="addGameObj.bo" value="3">BO 3
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" ng-model="addGameObj.bo" value="5">BO 5
+          </label>
+        </form>
+        <div class="checkbox">
+          <label><input type="checkbox" value="">Game Winner</label>
+        </div>
+
+        <div class="checkbox" style="width: 100%;">
+          <label><input type="checkbox" value="" ng-model="addGameObj.handicap_0_5">Handicap +0.5
+            <form>
+              <label class="radio-inline">
+                <input type="radio" name="optradio" checked>{{addGameAdmin.team1}}
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="optradio">{{addGameAdmin.team2}}
+              </label>
+            </form>
+          </label>
+        </div>
+
+        <div class="checkbox" style="width: 100%;">
+          <label><input type="checkbox" value="">Handicap +1.5
+            <form>
+              <label class="radio-inline">
+                <input type="radio" name="optradio" checked>{{addGameAdmin.team1}}
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="optradio">{{addGameAdmin.team2}}
+              </label>
+            </form>
+          </label>
+        </div>
+
+        <div class="checkbox" style="width: 100%;">
+          <label><input type="checkbox" value="">Handicap +2.5
+            <form>
+              <label class="radio-inline">
+                <input type="radio" name="optradio" checked>{{addGameAdmin.team1}}
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="optradio">{{addGameAdmin.team2}}
+              </label>
+            </form>
+          </label>
+        </div>
+
+        <hr>
+        <div class="checkbox">
+          <label><input type="checkbox" value="">Map Winner</label>
+        </div>
+        <div class="checkbox" style="width: 100%;">
+          <label><input type="checkbox" value="">Handicap Map +&nbsp;
+            <input type="number" style="width: 50px;" name="">
+            <form>
+              <label class="radio-inline">
+                <input type="radio" name="optradio" checked>{{addGameAdmin.team1}}
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="optradio">{{addGameAdmin.team2}}
+              </label>
+            </form>
+          </label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" value="">Race 5 kill</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" value="">Race 10 kill</label>
+        </div>
+
+
+        <div class="checkbox" style="width: 100%;">
+          <label><input type="checkbox" value="">Overtime&nbsp;&nbsp;&nbsp;
+            <input type="number" style="width: 50px;" value="30">
+          </label>
+        </div>
+
+
+        <div class="checkbox" style="width: 100%;">
+          <label><input type="checkbox" value="">Overkill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="number" style="width: 50px;" value="30">
+          </label>
+        </div>
+
+
+        <div class="checkbox" style="width: 100%;">
+          <label><input type="checkbox" value="">Overround&nbsp;
+            <input type="number" style="width: 50px;" value="26.5">
+          </label>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button ng-click="ad.insertGameAdmin()">
+          ADD GAME
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <table class="table panel panel-default">
+      <thead class="panel-heading">
         <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Email</th>
+          <th>Type</th>
+          <th>Time</th>
+          <th>Name</th>
+          <th>Action</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>john@example.com</td>
-        </tr>
-        <tr>
-          <td>Mary</td>
-          <td>Moe</td>
-          <td>mary@example.com</td>
-        </tr>
-        <tr>
-          <td>July</td>
-          <td>Dooley</td>
-          <td>july@example.com</td>
+      <tbody class="panel-body">
+        <tr ng-repeat="x in runGames">
+          <td>{{x.x.type}}</td>
+          <td>{{x.x.datetime}}</td>
+          <td>{{x.x.team1}}-vs-{{x.x.team2}}</td>
+          <td>
+            <button class="btn-info"
+              ng-click="ad.addGameAdmin(x)">
+              >
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="col-sm-4">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>john@example.com</td>
-        </tr>
-        <tr>
-          <td>Mary</td>
-          <td>Moe</td>
-          <td>mary@example.com</td>
-        </tr>
-        <tr>
-          <td>July</td>
-          <td>Dooley</td>
-          <td>july@example.com</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>

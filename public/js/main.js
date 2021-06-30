@@ -19,7 +19,8 @@ app.config(function($routeProvider) {
          templateUrl : "page/my-profile.html"
       })
       .when("/admin", {
-         templateUrl : "page/admin.html"
+         templateUrl : "page/admin.html",
+         controller : "adminCtrl"
       })
       .otherwise({
          template : "<p>Sorry when don't support yet</p>"
@@ -228,6 +229,7 @@ app.controller('controller', function($scope, $http) {
 
       websocket.onmessage = (event) => {
          console.log(event.data);
+         // if ()
       };
       // $http.post('/api/users/post', JSON.stringify(data))
       //    .then(function (response) {
@@ -239,6 +241,7 @@ app.controller('controller', function($scope, $http) {
       //       console.log(response);
       // });
    }
+   //ADMIN ADD GAME
 
    setInterval( function() {
       $('#countdownText').html(getCountdownConfirm($scope.countDownConfirm));
@@ -347,6 +350,27 @@ function deleteAllCookies() {
 }
 
 app.controller('mainCtrl', function($scope, $http) {
+   console.log('mainCtrl');
+});
+
+app.controller('adminCtrl', function($scope, $http) {
+   console.log('adminCtrl');
+   var ad = this;
+   $scope.addGameAdmin = {};
+   $scope.addGameObj = {
+      x: {},
+      bo: 1,
+      game: []
+   };
+   ad.addGameAdmin = function(game) {
+      $scope.addGameObj.x = game;
+   }
+   ad.insertGameAdmin = function() {
+      var game = JSON.stringify($scope.addGameObj);
+      $scope.runGames.push(JSON.parse(game));
+   }
+
+   $scope.runGames = [];
 });
 
 $( document ).ready(function() {
